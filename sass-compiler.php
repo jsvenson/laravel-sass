@@ -38,8 +38,10 @@ class SassCompiler
         $scss_compiler->setImportPaths($scss_folder);
         // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
         $scss_compiler->setFormatter($format_style);
-        // get all .scss files from scss folder
-        $filelist = glob($scss_folder . "*.scss");
+        // get all non-partial .scss files from scss folder
+        $filelist = aray_values(array_Filter(glob($scss_folder . '*.scss'), function($el) {
+          return substr(basename($el), 0, 1) != '_';
+        }));
 
         // step through all .scss files in that folder
         foreach ($filelist as $file_path) {
