@@ -39,7 +39,7 @@ class SassCompiler
         // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
         $scss_compiler->setFormatter($format_style);
         // get all non-partial .scss files from scss folder
-        $filelist = aray_values(array_filter(glob($scss_folder . '*.scss'), function($el) {
+        $filelist = array_values(array_filter(glob($scss_folder . '*.scss'), function($el) {
           return substr(basename($el), 0, 1) != '_';
         }));
 
