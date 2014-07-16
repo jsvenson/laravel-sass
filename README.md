@@ -7,8 +7,8 @@ folder to .css files in your css folder. Support latest version of SASS (scss sy
 
 ## Installation & Usage
 
-Add this to your composer.json, please note that this is a **require-dev**, not a normal **require**. This devides
-real dependencies from ones you only need for local development.
+Add this to your composer.json, please note that this is a **require-dev**, not a normal **require**. This divides
+real dependencies from the ones you only need for local development.
 
 ```json
 "require-dev": {
@@ -28,15 +28,23 @@ Make sure PHP can write into the css folder by giving the folder
 `sudo chmod -R 777 public/css` (when being in /var/www).
 **Note:** 777 is just for development, in a production server there's no need to give that folder any write-rights.
 
-Install or update your Composer dependencies to add laravel-sass by doing `composer install` or `composer update`.
+Alternatively you can use this line to run only in a specific environment.
+
+```php
+SassCompiler::runInEnvironment("local", $app->env, "scss/", "css/");
+```
+
+The first parameter is the environment you want the compiler to run in, and the second is the current environment. Calling `$app->env` in Laravel will return the current environment as a string; it may be different for different frameworks. The remaining parameters are the same as described above.
+
+Install or update your Composer dependencies to add laravel-sass by running `composer install` or `composer update`.
 Composer automatically installs everything in require-dev by default.
 
-**IMPORTANT:** When you later deploy your application and don't want to install the require-dev stuff, then do
+**IMPORTANT:** When you later deploy your application and don't want to install the require-dev stuff, then run
 `composer install --no-dev` (or `composer update --no-dev`).
 
 ## Optional feature
 
-There's an optional third parameter for `SassCompiler::run()` that expects one of the strings explained on
+There's an optional third parameter for `SassCompiler::run()` and fifth parameter for `SassCompiler::runInEnvironment()` that expects one of the strings described in
 http://leafo.net/scssphp/docs/#output_formatting. This defines the desired output. `scss_formatter` is the standard
 laravel-sass uses, choose `scss_formatter_compressed` if you need a minimized css file. `scss_formatter_nested` is
 for nested output, optimized for readability.
@@ -63,8 +71,7 @@ Read the official docs for more.
 
 ## When deploying ...
 
-.. then make sure you comment out this line again: `SassCompiler::run("scss/", "css/");`. Future releases of this
-tool will have a development/production switch/recognizer.
+.. then make sure you comment out this line again: `SassCompiler::run("scss/", "css/");`. If you used `SassCompiler::runInEnvironment()` you can leave it in if you like.
 
 ## Used scripts
 

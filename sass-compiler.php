@@ -32,6 +32,8 @@ class SassCompiler
      */
     static public function run($scss_folder, $css_folder, $format_style = "scss_formatter")
     {
+        // TODO: check $scss_folder and $css_folder for trailing '/'
+        
         // scssc will be loaded automatically via Composer
         $scss_compiler = new scssc();
         // set the path where your _mixins are
@@ -40,7 +42,7 @@ class SassCompiler
         $scss_compiler->setFormatter($format_style);
         // get all non-partial .scss files from scss folder
         $filelist = array_values(array_filter(glob($scss_folder . '*.scss'), function($el) {
-          return substr(basename($el), 0, 1) != '_';
+            return substr(basename($el), 0, 1) != '_';
         }));
 
         // step through all .scss files in that folder
@@ -57,5 +59,10 @@ class SassCompiler
             file_put_contents($css_folder . $file_name . ".css", $string_css);
         }
 
+    }
+    
+    static public function runInEnvironment($targetEnvironment, $currentEnvironment, $css_folder, $format_style = 'scss_formatter') 
+    {
+        if ($targetEnvironment == $currentEnvrionment) self::run($scss_folder, $css_folder, $format_style);
     }
 }
