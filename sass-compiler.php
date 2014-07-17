@@ -32,7 +32,7 @@ class SassCompiler
      */
     static public function run($scss_folder, $css_folder, $format_style = "scss_formatter")
     {
-        check $scss_folder and $css_folder for trailing '/'
+        // check $scss_folder and $css_folder for trailing '/'
         if (!self::endsWith($scss_folder, DIRECTORY_SEPARATOR)) $scss_folder .= DIRECTORY_SEPARATOR;
         if (!self::endsWith($css_folder, DIRECTORY_SEPARATOR)) $css_folder .= DIRECTORY_SEPARATOR;
         
