@@ -63,9 +63,9 @@ class SassCompiler
 
     }
     
-    static public function runInEnvironment($targetEnvironment, $currentEnvironment, $css_folder, $format_style = 'scss_formatter') 
+    static public function runInEnvironment($targetEnvironment, $currentEnvironment, $scss_folder, $css_folder, $format_style = 'scss_formatter') 
     {
-        if ($targetEnvironment == $currentEnvrionment) self::run($scss_folder, $css_folder, $format_style);
+        if ($targetEnvironment == $currentEnvironment) self::run($scss_folder, $css_folder, $format_style);
     }
     
     static private function endsWith($string, $cap = '') 
