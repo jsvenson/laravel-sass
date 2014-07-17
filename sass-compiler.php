@@ -32,7 +32,9 @@ class SassCompiler
      */
     static public function run($scss_folder, $css_folder, $format_style = "scss_formatter")
     {
-        // TODO: check $scss_folder and $css_folder for trailing '/'
+        check $scss_folder and $css_folder for trailing '/'
+        if (!self::endsWith($scss_folder, DIRECTORY_SEPARATOR)) $scss_folder .= DIRECTORY_SEPARATOR;
+        if (!self::endsWith($css_folder, DIRECTORY_SEPARATOR)) $css_folder .= DIRECTORY_SEPARATOR;
         
         // scssc will be loaded automatically via Composer
         $scss_compiler = new scssc();
@@ -64,5 +66,10 @@ class SassCompiler
     static public function runInEnvironment($targetEnvironment, $currentEnvironment, $css_folder, $format_style = 'scss_formatter') 
     {
         if ($targetEnvironment == $currentEnvrionment) self::run($scss_folder, $css_folder, $format_style);
+    }
+    
+    static private function endsWith($string, $cap = '') 
+    {
+        return substr($string, -strlen($cap)) == $cap;
     }
 }
