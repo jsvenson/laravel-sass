@@ -19,7 +19,7 @@ real dependencies from the ones you only need for local development.
 Add this line into your `public/index.php` in Laravel, right **before** `$app->run();`.
 
 ```php
-SassCompiler::run("scss/", "css/");
+SassCompiler::run("scss", "css");
 ```
 
 The first parameter is the relative path to your scss folder (create one) and the second parameter is the relative
@@ -31,7 +31,7 @@ Make sure PHP can write into the css folder by giving the folder
 Alternatively you can use this line to run only in a specific environment.
 
 ```php
-SassCompiler::runInEnvironment("local", $app->env, "scss/", "css/");
+SassCompiler::runInEnvironment("local", $app->env, "scss", "css");
 ```
 
 The first parameter is the environment you want the compiler to run in, and the second is the current environment. Calling `$app->env` in Laravel will return the current environment as a string; it may be different for different frameworks. The remaining parameters are the same as described above.
@@ -71,7 +71,7 @@ Read the official docs for more.
 
 ## When deploying ...
 
-.. then make sure you comment out this line again: `SassCompiler::run("scss/", "css/");`. If you used `SassCompiler::runInEnvironment()` you can leave it in if you like.
+.. then make sure you comment out this line again: `SassCompiler::run("scss", "css");`. If you used `SassCompiler::runInEnvironment()` you can leave it in if you like.
 
 ## Used scripts
 
