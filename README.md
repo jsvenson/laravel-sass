@@ -44,10 +44,9 @@ Composer automatically installs everything in require-dev by default.
 
 ## Optional feature
 
-There's an optional third parameter for `SassCompiler::run()` and fifth parameter for `SassCompiler::runInEnvironment()` that expects one of the strings described in
-http://leafo.net/scssphp/docs/#output_formatting. This defines the desired output. `scss_formatter` is the standard
-laravel-sass uses, choose `scss_formatter_compressed` if you need a minimized css file. `scss_formatter_nested` is
-for nested output, optimized for readability.
+There's an optional third parameter for `SassCompiler::run()` and fifth parameter for `SassCompiler::runInEnvironment()` that expects one of the strings described in http://leafo.net/scssphp/docs/#output_formatting. This defines the desired output. `scss_formatter` is the standard laravel-sass uses; choose `scss_formatter_compressed` if you need a minimized css file. `scss_formatter_nested` is for nested output, optimized for readability.
+
+If the `scss_formatter_compressed` option is used, the compiled css will have a `.min.css` extension appended to it rather than the normal `.css`.
 
 ## Testing
 
