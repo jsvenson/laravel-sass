@@ -50,20 +50,41 @@ class SassCompiler
         $extension = '.css';
         if ($format_style == 'scss_formatter_compressed') $extension = '.min.css';
 
-        // step through all .scss files in that folder
-        foreach ($filelist as $file_path) {
-            // get path elements from that file
-            $file_path_elements = pathinfo($file_path);
-            // get file's name without extension
-            $file_name = $file_path_elements['filename'];
-            // get .scss's content, put it into $string_sass
-            $string_sass = file_get_contents($scss_folder . $file_name . ".scss");
-            // compile this SASS code to CSS
-            $string_css = $scss_compiler->compile($string_sass);
-            // write CSS into file with the same filename, but .css extension
-            file_put_contents($css_folder . $file_name . $extension, $string_css);
+        // check the modified date of each file against the modified date of the existing compiled file
+        $scss_folder_iterator = new RecursiveDirectoryIterator($scss_folder);
+        $iterator = new RecursiveIteratorIterator($scss_folder_iterator, RecursiveIteratorIterator::SELF_FIRST);
+        $newest_date = 0;
+        foreach ($iterator as $current) {
+            if ($current->isFile() && $current->getMTime() > $newest_date) {
+                $newest_date = $current->getMTime();
+            }
         }
-
+        
+        $recompile_scss = false;
+        foreach ($filelist as $file_path) {
+            $file_path_elements = pathinfo($file_path);
+            $file_name = $file_path_elements['filename'];
+            $compiled_file = $css_folder . $file_name . $extension;
+            if (!is_file($compiled_file) || filemtime($compiled_file) < $newest_date) {
+                $recompile_scss = true;
+            }
+        }
+        
+        if ($recompile_scss) {
+            // step through all .scss files in that folder
+            foreach ($filelist as $file_path) {
+                // get path elements from that file
+                $file_path_elements = pathinfo($file_path);
+                // get file's name without extension
+                $file_name = $file_path_elements['filename'];
+                // get .scss's content, put it into $string_sass
+                $string_sass = file_get_contents($scss_folder . $file_name . ".scss");
+                // compile this SASS code to CSS
+                $string_css = $scss_compiler->compile($string_sass);
+                // write CSS into file with the same filename, but .css extension
+                file_put_contents($css_folder . $file_name . $extension, $string_css);
+            }
+        }
     }
     
     static public function runInEnvironment($targetEnvironment, $currentEnvironment, $scss_folder, $css_folder, $format_style = 'scss_formatter') 
