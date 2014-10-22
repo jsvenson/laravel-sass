@@ -46,6 +46,9 @@ class SassCompiler
         $filelist = array_values(array_filter(glob($scss_folder . '*.scss'), function($el) {
             return substr(basename($el), 0, 1) != '_';
         }));
+        
+        $extension = '.css';
+        if ($format_style == 'scss_formatter_compressed') $extension = '.min.css';
 
         // step through all .scss files in that folder
         foreach ($filelist as $file_path) {
@@ -58,7 +61,7 @@ class SassCompiler
             // compile this SASS code to CSS
             $string_css = $scss_compiler->compile($string_sass);
             // write CSS into file with the same filename, but .css extension
-            file_put_contents($css_folder . $file_name . ".css", $string_css);
+            file_put_contents($css_folder . $file_name . $extension, $string_css);
         }
 
     }
